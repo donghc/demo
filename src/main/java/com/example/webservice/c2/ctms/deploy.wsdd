@@ -1,0 +1,34 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from CSPRequestService WSDL service -->
+
+  <service name="ctms" provider="java:RPC" style="rpc" use="encoded">
+      <parameter name="wsdlTargetNamespace" value="iptv"/>
+      <parameter name="wsdlServiceElement" value="CSPRequestService"/>
+      <parameter name="schemaUnqualified" value="iptv"/>
+      <parameter name="wsdlServicePort" value="ctms"/>
+      <parameter name="className" value="com.guttv.distribute.webservice.c2.ctms.CtmsSoapBindingSkeleton"/>
+      <parameter name="wsdlPortType" value="CSPRequest"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <parameter name="allowedMethods" value="*"/>
+
+      <typeMapping
+        xmlns:ns="iptv"
+        qname="ns:CSPResult"
+        type="java:com.guttv.distribute.webservice.c2.ctms.CSPResult"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
+  </service>
+</deployment>
